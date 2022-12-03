@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -22,7 +23,7 @@ namespace API.Controllers
         }
         [HttpPost]
         [Route("Register")]
-        public ActionResult Register(RegisterVm registerVm)
+        public virtual ActionResult Register(RegisterVm registerVm)
         {
             var result = employeeRepository.Register(registerVm);
 
@@ -32,30 +33,63 @@ namespace API.Controllers
                     return Ok("Register sukses");
                     break;
                 case 2:
-                    return Ok("Email Sudah Ada");
+                    return BadRequest("Email Sudah Terdaftar");
                     break;
                 case 3:
-                    return Ok("Phone Sudah Ada");
+                    return BadRequest("Phone Sudah Terdaftar");
                     break;
                 default:
-                    return Ok("Register Gagal");
+                    return BadRequest("Register Gagal");
                     break;
             }
+        }
+        [HttpGet]
+        [Route("Register")]
+        public virtual ActionResult GetRegister()
+        {
+            var get = employeeRepository.GetData();
+            if (get.Count() != 0)
+            {
+                return StatusCode(200,
+                    new
+                    {
+                        status = HttpStatusCode.OK,
+                        message = get.Count() + " Data Berhasil Ditemukan",
+                        Data = get
+                    });
+            }
+            else
+            {
+                return StatusCode(404,
+                    new
+                    {
+                        status = HttpStatusCode.InternalServerError,
+                        message = "Data Tidak Ditemukan",
+                        Data = get
+                    });
+            }
 
-            //if(result == 1)
-            //{
-            //    return Ok("Register sukses");
-            //}else if (result == 2)
-            //{
-            //    return Ok("Email Sudah Ada");
-            //}else if (result == 3)
-            //{
-            //    return Ok("Phone Sudah Ada");
-            //}
-            //else
-            //{
-            //    return Ok("Register Gagal");
-            //}
+        }
+        [HttpPost]
+        [Route("Login")]
+        public virtual ActionResult Login(LoginVm loginVm)
+        {
+            var login = employeeRepository.GetLogin(loginVm);
+
+            switch (login)
+            {
+                case 1:
+                    return Ok("Login Sukses");
+                    break;
+                case 2:
+                    return BadRequest("Username Tidak Valid");
+                    break;
+                case 3:
+                    return BadRequest("Password Tidak Valid");
+                    break;
+
+            }
+            return BadRequest("Login Gagal");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace API.Base
         }
 
         [HttpGet]
-        public virtual ActionResult<Entity> Get()
+        public ActionResult<Entity> Get()
         {
             var get = repository.Get();
             if (get.Count() != 0)
@@ -32,7 +32,7 @@ namespace API.Base
                     new
                     {
                         status = HttpStatusCode.OK,
-                        message = "Data Berhasil Ditemukan",
+                        message = get.Count() + " Data Berhasil Ditemukan",
                         Data = get
                     });
             }
@@ -51,7 +51,7 @@ namespace API.Base
 
         [HttpGet]
         [Route("{key}")]
-        public virtual ActionResult Get(Key key)
+        public ActionResult Get(Key key)
         {
             var get = repository.Get(key);
             if (get != null)
@@ -79,7 +79,7 @@ namespace API.Base
         }
 
         [HttpPost]
-        public virtual ActionResult Insert(Entity entity)
+        public ActionResult Insert(Entity entity)
         {
             var insert = repository.Insert(entity);
             if(insert >= 1)
@@ -105,7 +105,7 @@ namespace API.Base
         }
 
         [HttpPut]
-        public virtual ActionResult Update(Entity entity, Key key)
+        public ActionResult Update(Entity entity, Key key)
         {
             var update = repository.Update(entity, key);
             if (update >= 1)
@@ -131,7 +131,7 @@ namespace API.Base
         }
         [HttpDelete]
         [Route("{key}")]
-        public virtual ActionResult Delete(Key key)
+        public ActionResult Delete(Key key)
         {
             var delete = repository.Delete(key);
             if(delete >= 1)

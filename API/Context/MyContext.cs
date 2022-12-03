@@ -41,5 +41,10 @@ namespace API.Context
                 .HasForeignKey<Profilling>(p => p.Education_Id);
 
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
     }
 }

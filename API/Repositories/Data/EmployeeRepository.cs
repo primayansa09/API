@@ -16,6 +16,33 @@ namespace API.Repositories.Data
             this.myContext = myContext;
         }
 
+        public IEnumerable<RegisterDataVM> GetData()
+        {
+
+            var getAll = (from emp in myContext.Employees
+                          join prof in myContext.Profillings
+                            on emp.NIK equals prof.NIK
+                          join edu in myContext.Educations
+                            on prof.Education_Id equals edu.Id
+                          join univ in myContext.Universities
+                            on edu.University_Id equals univ.Id
+                          select new RegisterDataVM()
+                          {
+                              NIK = emp.NIK,
+                              FullName = emp.FirstName + " " + emp.LastName,
+                              Phone = emp.Phone,
+                              Email = emp.Email,
+                              Salary = emp.Salary,
+                              BirthDate = emp.BirthDate,
+                              Gender = emp.Gender,
+                              Degree = edu.Degree,
+                              GPA = edu.GPA,
+                              U_Name = univ.Name
+                          }).ToList();
+
+            return getAll;
+        }
+
         public string FormatNIK()
         {
             var nikDate = DateTime.Today.ToString("yyyyddMM");
@@ -92,6 +119,23 @@ namespace API.Repositories.Data
             {
                 return 0;
             }
+        }
+
+        public int GetLogin(LoginVm loginVm)
+        {
+            var userName = myContext.Accounts.FirstOrDefault(u => u.NIK == loginVm.NIK);
+            var password = myContext.Accounts.FirstOrDefault(p => p.Pssword == loginVm.Password);
+
+            if (userName == null)
+            {
+                return 2;
+
+            }
+            else if (password == null)
+            {
+                return 3;
+            }
+            return 1;
         }
     }
 }

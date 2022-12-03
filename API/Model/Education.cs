@@ -19,7 +19,7 @@ namespace API.Model
         public string GPA { get; set; }
         [ForeignKey("University")]
         public int University_Id { get; set; }
-        public Profilling Profilling { get; set; }
-        public University University { get; set; }
+        public virtual Profilling Profilling { get; set; }
+        public virtual University University { get; set; }
     }
 }

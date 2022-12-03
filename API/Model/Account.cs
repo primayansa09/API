@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +14,8 @@ namespace API.Model
         [Key]
         public string NIK { get; set; }
         public string Pssword { get; set; }
-        public Employee Employee { get; set; }
-        public Profilling Profilling { get; set; }
+        public virtual Employee Employee { get; set; }
+        [JsonIgnore]
+        public virtual Profilling Profilling { get; set; }
     }
 }
