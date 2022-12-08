@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace API.Model
@@ -11,11 +12,8 @@ namespace API.Model
     public class Education
     {
         [Key]
-        [NotNull]
         public int Id { get; set; }
-        [NotNull]
         public string Degree { get; set; }
-        [NotNull]
         public string GPA { get; set; }
         [ForeignKey("University")]
         public int University_Id { get; set; }

@@ -1,4 +1,5 @@
 ﻿using API.Repositories.Interface;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ namespace API.Base
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[EnableCors("AllowOrigin")]
     public class BaseController<Entity, Repository, Key> : ControllerBase
         where Entity : class
         where Repository : IRepository<Entity, Key>
@@ -23,6 +25,7 @@ namespace API.Base
         }
 
         [HttpGet]
+        //[EnableCors("AllowOrigin")]
         public ActionResult<Entity> Get()
         {
             var get = repository.Get();
@@ -51,6 +54,7 @@ namespace API.Base
 
         [HttpGet]
         [Route("{key}")]
+        //[EnableCors("AllowOrigin")]
         public ActionResult Get(Key key)
         {
             var get = repository.Get(key);
@@ -79,6 +83,7 @@ namespace API.Base
         }
 
         [HttpPost]
+        //[EnableCors("AllowOrigin")]
         public ActionResult Insert(Entity entity)
         {
             var insert = repository.Insert(entity);
@@ -105,6 +110,7 @@ namespace API.Base
         }
 
         [HttpPut]
+        //[EnableCors("AllowOrigin")]
         public ActionResult Update(Entity entity, Key key)
         {
             var update = repository.Update(entity, key);
@@ -131,6 +137,7 @@ namespace API.Base
         }
         [HttpDelete]
         [Route("{key}")]
+        //[EnableCors("AllowOrigin")]
         public ActionResult Delete(Key key)
         {
             var delete = repository.Delete(key);
@@ -164,7 +171,6 @@ namespace API.Base
                         Data = delete
                     });
             }
-
         }
     }
 }

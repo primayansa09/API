@@ -29,12 +29,18 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            /*service cors*/
+            services.AddCors(c =>
+            {
+                c.AddPolicy("alloworigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 );
             /*Depedency Injection*/
             services.AddScoped<EmployeeRepository>();
             services.AddScoped<UniversityRepository>();
+            services.AddScoped<EducationRepository>();
             services.AddDbContext<MyContext>( options => options.
                 UseSqlServer(Configuration.GetConnectionString("API")));
         }
@@ -56,12 +62,15 @@ namespace API
 
             app.UseRouting();
 
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }

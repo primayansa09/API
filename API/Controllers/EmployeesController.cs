@@ -2,6 +2,7 @@
 using API.Model;
 using API.Repositories.Data;
 using API.VIewModel;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +15,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class EmployeesController : BaseController<Employee, EmployeeRepository, string>
     {
         private readonly EmployeeRepository employeeRepository;
@@ -23,6 +25,7 @@ namespace API.Controllers
         }
         [HttpPost]
         [Route("Register")]
+        [EnableCors("AllowOrigin")]
         public virtual ActionResult Register(RegisterVm registerVm)
         {
             var result = employeeRepository.Register(registerVm);
@@ -45,6 +48,7 @@ namespace API.Controllers
         }
         [HttpGet]
         [Route("Register")]
+        [EnableCors("AllowOrigin")]
         public virtual ActionResult GetRegister()
         {
             var get = employeeRepository.GetData();
